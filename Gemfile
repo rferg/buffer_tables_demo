@@ -27,3 +27,7 @@ group :development do
   # gem "spring"
 end
 
+
+gem "sidekiq", "~> 7.2"
+
+gem "sidekiq-scheduler", "~> 5.0"
