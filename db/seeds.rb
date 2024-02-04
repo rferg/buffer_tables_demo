@@ -8,3 +8,7 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+unless BusinessThing.exists?
+  things = 1_000.times.map { { amount: rand(0.0..1_000.0) } }
+  BusinessThing.insert_all(things)
+end

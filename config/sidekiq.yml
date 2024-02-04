@@ -1,0 +1,6 @@
+:scheduler:
+  :schedule:
+    distribute_business_events:
+      cron: '* * * * *'
+      enabled: false
+      class: DistributeBusinessEventsJob
