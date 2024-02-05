@@ -15,12 +15,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_194934) do
   enable_extension "plpgsql"
 
   create_table "business_events", force: :cascade do |t|
-    t.bigint "business_things_id", null: false
+    t.bigint "business_thing_id", null: false
     t.string "action"
     t.uuid "group_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["business_things_id"], name: "index_business_events_on_business_things_id"
+    t.index ["business_thing_id"], name: "index_business_events_on_business_thing_id"
     t.index ["group_id"], name: "index_business_events_on_group_id"
   end
 
@@ -30,5 +30,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_22_194934) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "business_events", "business_things", column: "business_things_id"
+  add_foreign_key "business_events", "business_things"
 end
