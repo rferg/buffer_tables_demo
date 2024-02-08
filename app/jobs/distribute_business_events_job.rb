@@ -5,7 +5,13 @@ class DistributeBusinessEventsJob
 
   def perform
     count = BusinessEvent.unclaimed.count
-    args = (count / Rails.configuration.buffer_batch_size.to_f).ceil.times.map { [] }
-    EnqueueBusinessEventsJob.perform_bulk(args)
+    args = (count / batch_size.to_f).ceil.times.map { [] }
+    ClaimBusinessEventsJob.perform_bulk(args)
+  end
+
+  private
+
+  def batch_size
+    Rails.configuration.buffer_batch_size
   end
 end

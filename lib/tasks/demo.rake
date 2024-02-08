@@ -6,7 +6,7 @@ module Demo
       INSERT INTO business_events (business_thing_id, "action", created_at, updated_at)
       SELECT b.id, 'test', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP
       FROM (SELECT id FROM business_things LIMIT 1) as b(id)
-      CROSS JOIN generate_series(1, #{num})
+      JOIN generate_series(1, #{num}) ON TRUE
     SQL
 
     puts Rainbow(sql).white
@@ -17,6 +17,7 @@ end
 namespace :demo do
   desc 'single run'
   task :single, [:number] => [:environment] do |_t, args|
+    BusinessEventsCounter.clear
     n = args[:number]&.to_i
 
     raise 'Usage: rake demo:single[1000]' unless n.present?

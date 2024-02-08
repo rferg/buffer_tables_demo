@@ -15,13 +15,13 @@ class BusinessEvent < ApplicationRecord
       raise ArgumentError, 'block required' unless block_given?
 
       transaction do
-        unclaimed.lock('FOR UPDATE SKIP LOCKED').limit(limit).pluck(:id).tap do |ids|
-          if ids.present?
-            group_id = SecureRandom.uuid
-            BusinessEvent.where(id: ids).update_all(group_id:)
-            yield(group_id)
-          end
+        ids = unclaimed.lock('FOR UPDATE SKIP LOCKED').limit(limit).pluck(:id)
+        if ids.present?
+          group_id = SecureRandom.uuid
+          BusinessEvent.where(id: ids).update_all(group_id:)
+          yield(group_id)
         end
+        ids
       end
     end
 
